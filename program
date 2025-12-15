@@ -1,0 +1,111 @@
+import java.util.Scanner;
+public class StudentGradeSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of students: ");
+        int n = sc.nextInt();
+
+        String[] names = new String[n];
+        int[] marks = new int[n];
+
+        // Input student data
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter name of student " + (i + 1) + ": ");
+            names[i] = sc.next();
+            System.out.print("Enter marks of " + names[i] + ": ");
+            marks[i] = sc.nextInt();
+        }
+
+        // Menu-driven system
+        int choice;
+        do {
+            System.out.println("\n--- Student Grade Management ---");
+            System.out.println("1. Display all students");
+            System.out.println("2. Find topper");
+            System.out.println("3. Find weakest student");
+            System.out.println("4. Sort students by marks");
+            System.out.println("5. Search student by name");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nList of Students:");
+                    for (int i = 0; i < n; i++) {
+                        System.out.println(names[i] + " - " + marks[i] + " marks");
+                    }
+                    break;
+
+                case 2:
+                    int maxIndex = 0;
+                    for (int i = 1; i < n; i++) {
+                        if (marks[i] > marks[maxIndex]) {
+                            maxIndex = i;
+                        }
+                    }
+                    System.out.println("Topper: " + names[maxIndex] + " with " + marks[maxIndex] + " marks");
+                    break;
+
+                case 3:
+                    int minIndex = 0;
+                    for (int i = 1; i < n; i++) {
+                        if (marks[i] < marks[minIndex]) {
+                            minIndex = i;
+                        }
+                    }
+                    System.out.println("Weakest: " + names[minIndex] + " with " + marks[minIndex] + " marks");
+                    break;
+
+                case 4:
+                    // Bubble sort by marks
+                    for (int i = 0; i < n - 1; i++) {
+                        for (int j = 0; j < n - i - 1; j++) {
+                            if (marks[j] < marks[j + 1]) {
+                                // swap marks
+                                int temp = marks[j];
+                                marks[j] = marks[j + 1];
+                                marks[j + 1] = temp;
+
+                                // swap names
+                                String tempName = names[j];
+                                names[j] = names[j + 1];
+                                names[j + 1] = tempName;
+                            }
+                        }
+                    }
+                    System.out.println("Students sorted by marks (descending):");
+                    for (int i = 0; i < n; i++) {
+                        System.out.println(names[i] + " - " + marks[i] + " marks");
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("Enter name to search: ");
+                    String searchName = sc.next();
+                    boolean found = false;
+                    for (int i = 0; i < n; i++) {
+                        if (names[i].equalsIgnoreCase(searchName)) {
+                            System.out.println(searchName + " scored " + marks[i] + " marks");
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("Exiting program...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        } while (choice != 6);
+
+        sc.close();
+    }
+}
